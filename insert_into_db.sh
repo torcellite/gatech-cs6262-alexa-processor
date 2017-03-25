@@ -20,7 +20,7 @@ for file in $files; do
 
   # Insert into mysql database
   echo "Inserting $file data into the database";
-  mysql -u root -proot -e "LOAD DATA LOCAL INFILE 'temp.csv'
+  mysql -u $1 -p$2 --local-infile alexa -e "LOAD DATA LOCAL INFILE 'temp.csv'
 	INTO TABLE alexa.top1murls
 	FIELDS TERMINATED BY ','
 	LINES TERMINATED BY '\n'
