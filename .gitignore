@@ -5,4 +5,5 @@ zip/*
 csv/*
 experiments.sql
 insert_into_test_db.sh
-url_*
+*_url_*
+*potentially*
