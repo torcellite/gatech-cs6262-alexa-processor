@@ -6,8 +6,8 @@ if [[ $# -ne 2 ]]; then
     exit 1;
 fi
 
-#FILE=`date +"%m-%d-%y"`-top-1m-urls.csv.zip
-#wget http://torcellite.com/cs6262/$FILE -O zip/$FILE
+FILE=`date +"%m-%d-%y"`-top-1m-urls.csv.zip
+wget http://torcellite.com/cs6262/$FILE -O zip/$FILE
 
 DATE=$(date +"%m-%d-%y")
 ZIP=$DATE-top-1m-urls.csv.zip
@@ -40,3 +40,24 @@ python heuristic_url_rank_drops.py csv/`date +"%m-%d-%y" -d "yesterday"`-top-1m-
 echo "Merging list of websites obtained from heuristic"
 cat $DATE\_url_rank_drops > $LIST
 cat $DATE\_url_appears_once | cut -d$'\t' -f1 >> $LIST
+mv $DATE\_url_rank_drops lists
+mv $DATE\_url_appears_once lists
+mv $LIST lists
+
+# Split website list for containers
+echo "Splitting lists for different Docker containers"
+bash split_list.sh lists/$LIST 6
+
+# Begin crawling
+for i in {1..6}
+do
+    echo "Starting crawler $i"
+    docker cp run_crawler.sh crawler_container_$i:/crawler/run_crawler.sh
+    docker cp website_list_$i crawler_container_$i:/crawler/website_list
+    docker exec -d crawler_container_$i /bin/sh -c "/bin/bash /crawler/run_crawler.sh"
+    echo "Started crawler $i"
+done
+
+# Clean up lists
+echo "Cleaning up"
+rm website_list_*
