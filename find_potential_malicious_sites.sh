@@ -30,8 +30,8 @@ bash heuristic_url_appears_once.sh $1 $2
 # Execute heuristic two
 echo "Applying heuristic - url rank drops"
 # date -v-1d works on Mac OSX but not Linux
-python heuristic_url_rank_drops.py csv/`date -v-1d +"%m-%d-%y"`-top-1m-urls.csv csv/$CSV 250000 $DATE
-#python heuristic_url_rank_drops.py csv/`date +"%m-%d-%y" -d "yesterday"`-top-1m-urls.csv csv/$CSV 250000 $DATE
+# python heuristic_url_rank_drops.py csv/`date -v-1d +"%m-%d-%y"`-top-1m-urls.csv csv/$CSV 250000 $DATE
+python heuristic_url_rank_drops.py csv/`date +"%m-%d-%y" -d "yesterday"`-top-1m-urls.csv csv/$CSV 250000 $DATE
 
 # Merge lists
 echo "Merging list of websites obtained from heuristic"
