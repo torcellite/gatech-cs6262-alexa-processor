@@ -11,7 +11,6 @@ i=0
 while read -r line; do
     ((i++))
     echo $line >> 'website_list_'$i
-    # echo $line' '$i
     if [[ $i -eq $max_split ]]; then 
 	i=0
     fi
