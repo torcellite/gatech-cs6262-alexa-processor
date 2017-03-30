@@ -1,8 +1,7 @@
 #!/bin/bash
-# $1 - MySQL user
-# $2 - MySQL password
-if [[ $# -ne 3 ]]; then
-    echo 'Usage is bash find_potential_malicious_sites.sh mysql_username mysql_password continue(0, 1)';
+# $1 - Continue
+if [[ $# -ne 1 ]]; then
+    echo 'Usage is bash find_potential_malicious_sites.sh continue(0, 1)';
     exit 1;
 fi
 
@@ -21,15 +20,9 @@ if [[ $3 -eq 0 ]]; then
 	echo "Extracting zip file"
 	unzip -p zip/$ZIP > csv/$CSV
 
-	# Insert into DB
-	echo "Inserting into database"
-	bash insert_into_db.sh $1 $2 $CSV
-
 	# Execute heuristic one
 	echo "Applying heuristic - url appears once"
-	bash heuristic_url_appears_once.sh $1 $2
         python heuristic_url_appears_once.py $DATE\_url_appears_once
-
 
 	# Execute heuristic two
 	echo "Applying heuristic - url rank drops"
