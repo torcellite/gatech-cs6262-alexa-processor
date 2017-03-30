@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NUM_DOCKER_INSTANCES=30
+NUM_DOCKER_INSTANCES=6
 DATE=`date +"%m-%d-%y"`
 
 mkdir -p crawled_websites/$DATE

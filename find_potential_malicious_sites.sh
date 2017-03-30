@@ -10,7 +10,7 @@ DATE=`date +"%m-%d-%y"`
 ZIP=$DATE-top-1m-urls.csv.zip
 CSV=$DATE-top-1m-urls.csv
 LIST=$DATE\_potentially_malicious_sites
-NUM_DOCKER_INSTANCES=30
+NUM_DOCKER_INSTANCES=8
 
 if [[ $3 -eq 0 ]]; then
 	# Download directly from the alexa page
@@ -28,6 +28,8 @@ if [[ $3 -eq 0 ]]; then
 	# Execute heuristic one
 	echo "Applying heuristic - url appears once"
 	bash heuristic_url_appears_once.sh $1 $2
+        python heuristic_url_appears_once.py $DATE\_url_appears_once
+
 
 	# Execute heuristic two
 	echo "Applying heuristic - url rank drops"
