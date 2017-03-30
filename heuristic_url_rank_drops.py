@@ -1,6 +1,6 @@
 import sys
 
-def get_sites(previous_alexa, current_alexa, minimum_delta, date):
+def get_sites(previous_alexa, current_alexa, minimum_delta, output_file):
     lines = []
     with open(previous_alexa, 'r') as f:
         lines = f.readlines()
@@ -26,15 +26,15 @@ def get_sites(previous_alexa, current_alexa, minimum_delta, date):
             # URL was not found in "previous_alexa", but is found in "current_alexa"
             delta[tokens[1]] = None
 
-    with open(date + '_url_rank_drops', 'w') as f:
+    with open(output_file, 'w') as f:
         f.write(output)
 
 if __name__ == '__main__':
     if len(sys.argv) < 5:
-        print 'Usage is python heuristic_url_drop_in_rank previous_alexa current_alexa minimum_delta date'
+        print 'Usage is python heuristic_url_drop_in_rank previous_alexa current_alexa minimum_delta output_file'
     else:
         previous_alexa = sys.argv[1]
         current_alexa = sys.argv[2]
         minimum_delta = int(sys.argv[3])
-        date = sys.argv[4]
-        get_sites(previous_alexa, current_alexa, minimum_delta, date)
+        output_file = sys.argv[4]
+        get_sites(previous_alexa, current_alexa, minimum_delta, output_file)

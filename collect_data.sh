@@ -4,7 +4,7 @@ NUM_DOCKER_INSTANCES=8
 DATE=`date +"%m-%d-%y"`
 
 mkdir -p crawled_websites/$DATE
-mkdir -p logs/$DATE
+mkdir -p logs
 
 for i in `seq 1 $NUM_DOCKER_INSTANCES`; do
     # Copy crawled websites folder
@@ -15,7 +15,7 @@ for i in `seq 1 $NUM_DOCKER_INSTANCES`; do
     rm -r crawled_websites/$DATE/crawled_websites
 
     # Copy log file
-    docker cat crawler_container_$i:/crawler/log >> logs/$DATE\.log
+    docker exec -it crawler_container_$i cat /crawler/log >> logs/$DATE\.log
 
     # Sanitize docker instances and start new ones
     docker stop crawler_container_$i

@@ -11,7 +11,7 @@ CSV=$DATE-top-1m-urls.csv
 LIST=$DATE\_potentially_malicious_sites
 NUM_DOCKER_INSTANCES=8
 
-if [[ $3 -eq 0 ]]; then
+if [[ $1 -eq 0 ]]; then
 	# Download directly from the alexa page
 	echo "Downloading alexa zip file"
 	wget http://s3.amazonaws.com/alexa-static/top-1m.csv.zip -O zip/$ZIP
@@ -23,12 +23,14 @@ if [[ $3 -eq 0 ]]; then
 	# Execute heuristic one
 	echo "Applying heuristic - url appears once"
         python heuristic_url_appears_once.py $DATE\_url_appears_once
+        wc -l $DATE\_url_appears_once
 
 	# Execute heuristic two
 	echo "Applying heuristic - url rank drops"
 	# date -v-1d works on Mac OSX but not Linux
-	# python heuristic_url_rank_drops.py csv/`date -v-1d +"%m-%d-%y"`-top-1m-urls.csv csv/$CSV 250000 $DATE
-	python heuristic_url_rank_drops.py csv/`date +"%m-%d-%y" -d "yesterday"`-top-1m-urls.csv csv/$CSV 250000 $DATE
+	# python heuristic_url_rank_drops.py csv/`date -v-1d +"%m-%d-%y"`-top-1m-urls.csv csv/$CSV 250000 $DATE\_url_rank_drops
+	python heuristic_url_rank_drops.py csv/`date +"%m-%d-%y" -d "yesterday"`-top-1m-urls.csv csv/$CSV 250000 $DATE\_url_rank_drops
+        wc -l $DATE\_url_rank_drops
 fi
 
 # Merge lists
