@@ -9,15 +9,17 @@ DATE=`date +"%m-%d-%y"`
 ZIP=$DATE-top-1m-urls.csv.zip
 CSV=$DATE-top-1m-urls.csv
 LIST=$DATE\_potentially_malicious_sites
-NUM_DOCKER_INSTANCES=8
+NUM_INSTANCES=8
 
 if [[ $1 -eq 0 ]]; then
 	# Download directly from the alexa page
 	echo "Downloading alexa zip file"
+    mkdir zip
 	wget http://s3.amazonaws.com/alexa-static/top-1m.csv.zip -O zip/$ZIP
 
 	# Extract zip to csv folder
 	echo "Extracting zip file"
+    mkdir csv
 	unzip -p zip/$ZIP > csv/$CSV
 
 	# Execute heuristic one
@@ -35,8 +37,9 @@ fi
 
 # Merge lists
 echo "Merging list of websites obtained from heuristic"
-mv $DATE\_url_rank_drops lists
-mv $DATE\_url_appears_once lists
+mkdir lists
+mv $DATE\_url_rank_drops lists/
+mv $DATE\_url_appears_once lists/
 python merge_heuristic_lists.py lists/$LIST lists/$DATE\_url_appears_once lists/$DATE\_url_rank_drops
 
 # Filter website list based on sites that have already been crawled
@@ -49,19 +52,12 @@ fi
 
 # Split website list for containers
 echo "Splitting lists for different Docker containers"
-bash split_list.sh lists/$LIST $NUM_DOCKER_INSTANCES
+bash split_list.sh lists/$LIST $NUM_INSTANCES
 
 # Begin crawling
-for i in `seq 1 $NUM_DOCKER_INSTANCES`; do
-    echo "Starting crawler $i"
-    docker cp website_list_$i crawler_container_$i:/crawler/website_list
-    docker exec -d crawler_container_$i /bin/sh -c "/bin/bash /crawler/run_crawler.sh"
-    echo "Started crawler $i"
-done
+echo "Starting crawling"
+mkdir $CRAWLER_HOME/crawl_lists/
+mv website_list_* $CRAWLER_HOME/crawl_lists/
+cd $CRAWLER_HOME
+bash run_multiple_crawlers.sh $NUM_INSTANCES
 
-# Clean up lists
-echo "Cleaning up"
-rm website_list_*
-
-# Ensure everyone has access to the lists
-chown kbalakrishnan8:gtperson -R lists
