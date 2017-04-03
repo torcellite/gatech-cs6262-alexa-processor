@@ -5,6 +5,7 @@ if [[ $# -ne 1 ]]; then
     exit 1;
 fi
 
+CRAWLER_HOME="/nethome/kbalakrishnan8/team3_netsec_project2/crawler"
 DATE=`date +"%m-%d-%y"`
 ZIP=$DATE-top-1m-urls.csv.zip
 CSV=$DATE-top-1m-urls.csv
