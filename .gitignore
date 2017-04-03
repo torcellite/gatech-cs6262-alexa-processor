@@ -6,7 +6,6 @@ csv/*
 lists/*
 experiments.sql
 insert_into_test_db.sh
-*_url_*
 *potentially*
 *website*
 crawled_websites
