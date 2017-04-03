@@ -54,7 +54,6 @@ bash split_list.sh lists/$LIST $NUM_DOCKER_INSTANCES
 # Begin crawling
 for i in `seq 1 $NUM_DOCKER_INSTANCES`; do
     echo "Starting crawler $i"
-    docker cp run_crawler.sh crawler_container_$i:/crawler/run_crawler.sh
     docker cp website_list_$i crawler_container_$i:/crawler/website_list
     docker exec -d crawler_container_$i /bin/sh -c "/bin/bash /crawler/run_crawler.sh"
     echo "Started crawler $i"
