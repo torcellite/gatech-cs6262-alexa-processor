@@ -44,7 +44,7 @@ mv $DATE\_url_appears_once lists/
 python merge_heuristic_lists.py lists/$LIST lists/$DATE\_url_appears_once lists/$DATE\_url_rank_drops
 
 # Filter website list based on sites that have already been crawled
-echo "Filtering list for different Docker containers"
+echo "Filtering list for different processes"
 if [[ -f lists/$DATE\_crawled_potentially_malicious_sites ]]; then
     grep -F -x -v -f lists/$DATE\_crawled_potentially_malicious_sites lists/$LIST > lists/$LIST\_1
     rm lists/$LIST
@@ -52,7 +52,7 @@ if [[ -f lists/$DATE\_crawled_potentially_malicious_sites ]]; then
 fi
 
 # Split website list for containers
-echo "Splitting lists for different Docker containers"
+echo "Splitting lists for different processes"
 bash split_list.sh lists/$LIST $NUM_INSTANCES
 
 # Begin crawling
