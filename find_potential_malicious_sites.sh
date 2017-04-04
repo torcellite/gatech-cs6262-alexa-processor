@@ -10,18 +10,21 @@ DATE=`date +"%m-%d-%y"`
 ZIP=$DATE-top-1m-urls.csv.zip
 CSV=$DATE-top-1m-urls.csv
 LIST=$DATE\_potentially_malicious_sites
-NUM_INSTANCES=8
+NUM_INSTANCES=4
 
 if [[ $1 -eq 0 ]]; then
-	# Download directly from the alexa page
-	echo "Downloading alexa zip file"
-    mkdir zip
-	wget http://s3.amazonaws.com/alexa-static/top-1m.csv.zip -O zip/$ZIP
+        # Download the rankings for today if not already done
+        if [[ ! -f zip/$ZIP ]]; then
+		# Download directly from the alexa page
+		echo "Downloading alexa zip file"
+	        mkdir zip
+		wget http://s3.amazonaws.com/alexa-static/top-1m.csv.zip -O zip/$ZIP
 
-	# Extract zip to csv folder
-	echo "Extracting zip file"
-    mkdir csv
-	unzip -p zip/$ZIP > csv/$CSV
+		# Extract zip to csv folder
+		echo "Extracting zip file"
+	        mkdir csv
+ 		unzip -p zip/$ZIP > csv/$CSV
+	fi
 
 	# Execute heuristic one
 	echo "Applying heuristic - url appears once"
@@ -57,6 +60,7 @@ bash split_list.sh lists/$LIST $NUM_INSTANCES
 
 # Begin crawling
 echo "Starting crawling"
+rm -r $CRAWLER_HOME/crawl_lists/
 mkdir $CRAWLER_HOME/crawl_lists/
 mv website_list_* $CRAWLER_HOME/crawl_lists/
 cd $CRAWLER_HOME
