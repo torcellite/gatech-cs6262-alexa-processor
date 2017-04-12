@@ -9,6 +9,7 @@ The module applies certain heuristics to determine potential malicious URLs in t
 
 ### Required Environment Variables
 `CRAWLER_HOME` - Directory to the [crawler source code](https://github.gatech.edu/kbalakrishnan8/cs6262-crawler)
+
 `ALEXA_PROCESSOR_HOME` - Directory to the alexa processor source code
 
 ### Overview of Alexa Processor
