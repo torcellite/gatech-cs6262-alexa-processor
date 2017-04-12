@@ -1,4 +1,10 @@
 #!/bin/bash
+
+##
+# This is a helper script to unzip a batch of .zip files from the zip folder
+# to the csv folder
+##
+
 cd zip
 
 for i in `ls -1`; do

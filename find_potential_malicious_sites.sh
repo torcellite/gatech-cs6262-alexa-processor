@@ -1,4 +1,10 @@
 #!/bin/bash
+
+##
+# This script is used to spawn `NUM_INSTANCES` processes and feed them URLs
+# that have been chosen by multiple hueristics.
+##
+
 # $1 - Continue
 if [[ $# -ne 1 ]]; then
     echo 'Usage is bash find_potential_malicious_sites.sh continue(0, 1)';
@@ -10,7 +16,7 @@ DATE=`date +"%m-%d-%y"`
 ZIP=$DATE-top-1m-urls.csv.zip
 CSV=$DATE-top-1m-urls.csv
 LIST=$DATE\_potentially_malicious_sites
-NUM_INSTANCES=4
+NUM_INSTANCES=8
 
 if [[ $1 -eq 0 ]]; then
         # Download the rankings for today if not already done
@@ -65,4 +71,3 @@ mkdir $CRAWLER_HOME/crawl_lists/
 mv website_list_* $CRAWLER_HOME/crawl_lists/
 cd $CRAWLER_HOME
 bash run_multiple_crawlers.sh $NUM_INSTANCES
-
