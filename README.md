@@ -1,6 +1,6 @@
 ## Alexa Processor
 
-The following module applies certain heuristics to determine potential malicious URLs in the Alexa Top 1 million domains list.
+The module applies certain heuristics to determine potential malicious URLs in the Alexa Top 1 million domains list.
 
 ### Usage
 `bash find_potential_malicious_sites.sh 0` to download the day's Alexa list, apply heuristics, merge and split the list and then begin crawling.
