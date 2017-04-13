@@ -43,6 +43,11 @@ if [[ $1 -eq 0 ]]; then
 	# python heuristic_url_rank_drops.py csv/`date -v-1d +"%m-%d-%y"`-top-1m-urls.csv csv/$CSV 250000 $DATE\_url_rank_drops
 	python heuristic_url_rank_drops.py csv/`date +"%m-%d-%y" -d "yesterday"`-top-1m-urls.csv csv/$CSV 250000 $DATE\_url_rank_drops
         wc -l $DATE\_url_rank_drops
+
+    # Execute heuristic three
+	echo "Applying heuristic - url keyword substrings"
+	python heuristic_url_rank_drops.py csv/$CSV $DATE\_url_contains_keyword
+        wc -l $DATE\_url_contains_keyword
 fi
 
 # Merge lists
@@ -50,7 +55,8 @@ echo "Merging list of websites obtained from heuristic"
 mkdir lists
 mv $DATE\_url_rank_drops lists/
 mv $DATE\_url_appears_once lists/
-python merge_heuristic_lists.py lists/$LIST lists/$DATE\_url_appears_once lists/$DATE\_url_rank_drops
+mv $DATE\_url_contains_keyword lists/
+python merge_heuristic_lists.py lists/$LIST lists/$DATE\_url_appears_once lists/$DATE\_url_rank_drops lists/$DATE\_url_contains_keyword
 
 # Filter website list based on sites that have already been crawled
 echo "Filtering list for different processes"
