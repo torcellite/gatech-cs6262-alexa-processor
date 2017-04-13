@@ -19,6 +19,8 @@ The module applies certain heuristics to determine potential malicious URLs in t
 
 2. `heuristic_url_rank_drops.py` - Any URL that gains "x" ranks over a day. Websites that shoot up Alexa ranks in a day are usually not gaining user traction organically. <br/> <br/> Note: The python file should actually be named `heuristic_url_rank_decreases.py` and its corresponding output file should be `url_rank_decreases` (the output file name is defined in `find_potential_malicious_sites.sh`).
 
+3. `heuristic_url_contains_keyword.py` - Any URL that contains specified keywords as its substring.
+
 Each heuristic is given a fair chance of execution by the crawler module by merging lists output by different heuristics line by line using `merge_heuristic_lists.py`.
 
 The merged list is then split using `split_list.sh` into the number of processes that will be spawned so that each new list can be crawled independently.
