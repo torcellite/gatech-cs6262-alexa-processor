@@ -46,7 +46,7 @@ if [[ $1 -eq 0 ]]; then
 
     # Execute heuristic three
 	echo "Applying heuristic - url keyword substrings"
-	python heuristic_url_rank_drops.py csv/$CSV $DATE\_url_contains_keyword
+	python heuristic_url_contains_keyword.py csv/$CSV $DATE\_url_contains_keyword
         wc -l $DATE\_url_contains_keyword
 fi
 
