@@ -8,7 +8,7 @@ The module applies certain heuristics to determine potential malicious URLs in t
 `bash find_potential_malicious_sites.sh 1` to remove already crawled websites from the list, split the list and begin crawling.
 
 ### Required Environment Variables
-`CRAWLER_HOME` - Directory to the [crawler source code](https://github.gatech.edu/kbalakrishnan8/cs6262-crawler)
+`CRAWLER_HOME` - Directory to the [crawler source code](https://github.com/torcellite/gatech-cs6262-crawler)
 
 `ALEXA_PROCESSOR_HOME` - Directory to the alexa processor source code
 
